@@ -41,7 +41,29 @@ with open(OUT_CSV, "w", newline="") as fcsv, \
      mp_pose.Pose(model_complexity=2, enable_segmentation=False,
                   min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
     writer = csv.writer(fcsv)
-    writer.writerow(["time_s","knee_left_deg","knee_right_deg","elbow_left_deg","elbow_right_deg"])
+
+    # ---- ONLY BODY LANDMARKS (indices 11..32) ----
+    body_landmark_names = [
+        "left_shoulder", "right_shoulder",
+        "left_elbow", "right_elbow",
+        "left_wrist", "right_wrist",
+        "left_pinky", "right_pinky",
+        "left_index", "right_index",
+        "left_thumb", "right_thumb",
+        "left_hip", "right_hip",
+        "left_knee", "right_knee",
+        "left_ankle", "right_ankle",
+        "left_heel", "right_heel",
+        "left_foot_index", "right_foot_index"
+    ]
+    body_indices = list(range(11, 33))  # 11..32 inclusive
+
+    # CSV header: time + 4 angles + body (x then y)
+    header = (["time_s","knee_left_deg","knee_right_deg","elbow_left_deg","elbow_right_deg"] +
+              [f"{n}_x" for n in body_landmark_names] +
+              [f"{n}_y" for n in body_landmark_names])
+    writer.writerow(header)
+    # -----------------------------------------------
 
     t = 0.0
     dt = 1.0 / fps
@@ -62,9 +84,7 @@ with open(OUT_CSV, "w", newline="") as fcsv, \
             )
 
             lms = res.pose_landmarks.landmark
-            # MediaPipe indices:
-            # elbows: LEFT=13, RIGHT=14; shoulders: 11,12; wrists: 15,16
-            # knees: LEFT=25, RIGHT=26; hips: 23,24; ankles: 27,28
+            # collect all pixel coords
             pts = {}
             for idx in range(33):
                 pts[idx] = get_xy(lms, idx, w, h)
@@ -81,11 +101,19 @@ with open(OUT_CSV, "w", newline="") as fcsv, \
             put(f"Knee L/R: {knee_l and round(knee_l,1)} / {knee_r and round(knee_r,1)}", 60)
             put(f"Elbow L/R: {elbow_l and round(elbow_l,1)} / {elbow_r and round(elbow_r,1)}", 90)
 
-            writer.writerow([f"{t:.3f}",
-                             f"{'' if knee_l is None else round(knee_l,3)}",
-                             f"{'' if knee_r is None else round(knee_r,3)}",
-                             f"{'' if elbow_l is None else round(elbow_l,3)}",
-                             f"{'' if elbow_r is None else round(elbow_r,3)}"])
+            # ---- WRITE ROW: time, 4 angles, body coords (x then y) ----
+            row = [
+                f"{t:.3f}",
+                f"{'' if knee_l is None else round(knee_l,3)}",
+                f"{'' if knee_r is None else round(knee_r,3)}",
+                f"{'' if elbow_l is None else round(elbow_l,3)}",
+                f"{'' if elbow_r is None else round(elbow_r,3)}"
+            ]
+            xs = [f"{'' if pts.get(i) is None else round(pts[i][0],3)}" for i in body_indices]
+            ys = [f"{'' if pts.get(i) is None else round(pts[i][1],3)}" for i in body_indices]
+            writer.writerow(row + xs + ys)
+            # -----------------------------------------------------------
+
         out.write(frame)
         t += dt
 
