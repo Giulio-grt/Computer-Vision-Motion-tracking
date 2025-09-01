@@ -13,6 +13,14 @@ cap = cv2.VideoCapture(0)  # try 1 if you have multiple cameras
 if not cap.isOpened():
     raise RuntimeError("Cannot open camera.")
 
+# --- set higher resolution (depends on your camera capability) ---
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)   # Full HD width
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)  # Full HD height
+
+# --- make window resizable and large ---
+cv2.namedWindow("MediaPipe Pose (q to quit)", cv2.WINDOW_NORMAL)
+cv2.resizeWindow("MediaPipe Pose (q to quit)", 1920, 1080)
+
 prev = time.time()
 with mp_pose.Pose(model_complexity=1, enable_segmentation=False, min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
     while True:
