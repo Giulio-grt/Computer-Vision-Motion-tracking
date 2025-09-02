@@ -3,6 +3,7 @@ import sys, os
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
+import plotly.io as pio
 
 def main(csv_path):
     if not os.path.exists(csv_path):
@@ -179,7 +180,8 @@ def main(csv_path):
         ),
         frames=frames
     )
-
+    
+    pio.renderers.default = "browser"
     fig.show()
 
 if __name__ == "__main__":
