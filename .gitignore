@@ -2,3 +2,4 @@
 .mypy_cache
 __pycache__
 examples/example_2.mp4
+.DS_Store

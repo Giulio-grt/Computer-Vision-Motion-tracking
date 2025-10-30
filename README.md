@@ -15,7 +15,7 @@ The repo includes:
 
 - Live webcam pose visualization with FPS overlay.
 
-![Demo_2](assets/screenshot_example_1.png)
+![Demo_2](assets/Screenshot_example_1.png)
 
 - An interactive Plotly player that replays the 2D skeleton from a CSV and shows the coordination between your right wrist and left ankle.
 
