@@ -10,7 +10,7 @@ The project uses MediaPipe’s Pose model to detect 2D body landmarks from video
 [![Python](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)](https://www.python.org/)
 ![Plotly](https://img.shields.io/badge/Plotly-3F4F75?style=for-the-badge&logo=plotly&logoColor=white)
 --- 
-The repo includes:
+**The repo includes:**
 - Offline video analysis that writes an annotated video and a CSV of pose metrics.
 
 - Live webcam pose visualization with FPS overlay.
