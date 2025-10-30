@@ -59,12 +59,6 @@ git clone https://github.com/Giulio-grt/CV-human-motion.git
 pip install -r requirements.txt
 ```
 
-
-Troubleshooting installs:
-
-- MoviePy uses FFmpeg. The `imageio-ffmpeg` wheel is included in the requirements. If conversion fails with “ffmpeg not found”, run `pip install imageio-ffmpeg` again or install OS‑level ffmpeg (e.g on mac, `brew install ffmpeg`).
-
-
 ## Run The Code 
 
 **1) Analyze a video and export outputs**
