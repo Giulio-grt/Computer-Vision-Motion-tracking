@@ -2,9 +2,9 @@ import cv2, csv, math
 import numpy as np
 import mediapipe as mp
 
-INPUT = "input.mp4" # <- change to your own input video path
-OUT_VIDEO = "new_annotated.mp4"
-OUT_CSV = "new_metrics.csv"
+INPUT = "assets/input_2.mp4" # <- change to your own input video path
+OUT_VIDEO = "examples/example_2.mp4"
+OUT_CSV = "metrics/metrics_1.csv"
 
 mp_pose = mp.solutions.pose
 mp_draw = mp.solutions.drawing_utils
